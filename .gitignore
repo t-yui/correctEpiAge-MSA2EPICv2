@@ -1,0 +1,13 @@
+# ignore all
+*
+
+# allow directory
+!*/
+
+# allow a specified file
+!calibrate_msa2epic.R
+!epigenetic_clock_msa_vs_epicv2.R
+!.gitignore
+!.gitkeep
+!LICENSE
+!README.md
