@@ -135,6 +135,7 @@ scatter_plot <- function(truth, estimate, title = "", xlabel = NULL, ylabel = NU
 all_train_data <- list()
 all_test_data <- list()
 all_models <- list()
+all_coefficients <- list()
 all_plots <- list()
 
 for(i in 1:length(clocks)) {
@@ -177,7 +178,10 @@ for(i in 1:length(clocks)) {
   
   all_models[[clock]] <- list(model1 = model1, model2 = model2, model3 = model3)
   
-  ## apply corrections to test data
+  all_coefficients[[clock]] <- list(model1 = coef(model1), model2 = coef(model2),
+                                    model3 = coef(model3))
+  
+  ## apply calibration to test data
   test_data$corrected_model1 <- predict(model1, newdata = test_data)
   test_data$corrected_model2 <- predict(model2, newdata = test_data)
   test_data$corrected_model3 <- predict(model3, newdata = test_data)
@@ -402,99 +406,82 @@ for (i in 1:length(clocks)) {
   ## Model 1
   s1 <- summary(models$model1)
   coef1 <- s1$coefficients
-  ci1 <- confint(models$model1)
   rows4[[length(rows4) + 1]] <- data.frame(
     Clock    = clock_label,
     Model    = "Model 1",
     Term     = "Intercept",
-    Estimate = sprintf("%.8f", coef1[1, 1]),
-    Std.Error= sprintf("%.8f", coef1[1, 2]),
+    Estimate = sprintf("%.6g", coef1[1, 1]),
+    Std.Error= sprintf("%.6g", coef1[1, 2]),
     t.value  = sprintf("%.3f", coef1[1, 3]),
     p.value  = sprintf("%.3e", coef1[1, 4]),
-    CI.Lower = sprintf("%.8f", ci1[1, 1]),
-    CI.Upper = sprintf("%.8f", ci1[1, 2]),
     stringsAsFactors = FALSE
   )
   
   ## Model 2
   s2 <- summary(models$model2)
   coef2 <- s2$coefficients
-  ci2 <- confint(models$model2)
   rows4[[length(rows4) + 1]] <- data.frame(
     Clock    = clock_label,
     Model    = "Model 2",
     Term     = "Intercept",
-    Estimate = sprintf("%.8f", coef2[1, 1]),
-    Std.Error= sprintf("%.8f", coef2[1, 2]),
+    Estimate = sprintf("%.6g", coef2[1, 1]),
+    Std.Error= sprintf("%.6g", coef2[1, 2]),
     t.value  = sprintf("%.3f", coef2[1, 3]),
     p.value  = sprintf("%.3e", coef2[1, 4]),
-    CI.Lower = sprintf("%.8f", ci2[1, 1]),
-    CI.Upper = sprintf("%.8f", ci2[1, 2]),
     stringsAsFactors = FALSE
   )
   rows4[[length(rows4) + 1]] <- data.frame(
     Clock    = clock_label,
     Model    = "Model 2",
     Term     = "MSA",
-    Estimate = sprintf("%.8f", coef2[2, 1]),
-    Std.Error= sprintf("%.8f", coef2[2, 2]),
+    Estimate = sprintf("%.6g", coef2[2, 1]),
+    Std.Error= sprintf("%.6g", coef2[2, 2]),
     t.value  = sprintf("%.3f", coef2[2, 3]),
     p.value  = sprintf("%.3e", coef2[2, 4]),
-    CI.Lower = sprintf("%.8f", ci2[2, 1]),
-    CI.Upper = sprintf("%.8f", ci2[2, 2]),
     stringsAsFactors = FALSE
   )
   
   ## Model 3
   s3 <- summary(models$model3)
   coef3 <- s3$coefficients
-  ci3 <- confint(models$model3)
   rows4[[length(rows4) + 1]] <- data.frame(
     Clock    = clock_label,
     Model    = "Model 3",
     Term     = "Intercept",
-    Estimate = sprintf("%.8f", coef3[1, 1]),
-    Std.Error= sprintf("%.8f", coef3[1, 2]),
+    Estimate = sprintf("%.6g", coef3[1, 1]),
+    Std.Error= sprintf("%.6g", coef3[1, 2]),
     t.value  = sprintf("%.3f", coef3[1, 3]),
     p.value  = sprintf("%.3e", coef3[1, 4]),
-    CI.Lower = sprintf("%.8f", ci3[1, 1]),
-    CI.Upper = sprintf("%.8f", ci3[1, 2]),
     stringsAsFactors = FALSE
   )
   rows4[[length(rows4) + 1]] <- data.frame(
     Clock    = clock_label,
     Model    = "Model 3",
     Term     = "MSA",
-    Estimate = sprintf("%.8f", coef3[2, 1]),
-    Std.Error= sprintf("%.8f", coef3[2, 2]),
+    Estimate = sprintf("%.6g", coef3[2, 1]),
+    Std.Error= sprintf("%.6g", coef3[2, 2]),
     t.value  = sprintf("%.3f", coef3[2, 3]),
     p.value  = sprintf("%.3e", coef3[2, 4]),
-    CI.Lower = sprintf("%.8f", ci3[2, 1]),
-    CI.Upper = sprintf("%.8f", ci3[2, 2]),
     stringsAsFactors = FALSE
   )
   rows4[[length(rows4) + 1]] <- data.frame(
     Clock    = clock_label,
     Model    = "Model 3",
     Term     = "Age",
-    Estimate = sprintf("%.8f", coef3[3, 1]),
-    Std.Error= sprintf("%.8f", coef3[3, 2]),
+    Estimate = sprintf("%.6g", coef3[3, 1]),
+    Std.Error= sprintf("%.6g", coef3[3, 2]),
     t.value  = sprintf("%.3f", coef3[3, 3]),
     p.value  = sprintf("%.3e", coef3[3, 4]),
-    CI.Lower = sprintf("%.8f", ci3[3, 1]),
-    CI.Upper = sprintf("%.8f", ci3[3, 2]),
     stringsAsFactors = FALSE
   )
   rows4[[length(rows4) + 1]] <- data.frame(
     Clock    = clock_label,
     Model    = "Model 3",
     Term     = "Sex",
-    Estimate = sprintf("%.8f", coef3[4, 1]),
-    Std.Error= sprintf("%.8f", coef3[4, 2]),
+    Estimate = sprintf("%.6g", coef3[4, 1]),
+    Std.Error= sprintf("%.6g", coef3[4, 2]),
     t.value  = sprintf("%.3f", coef3[4, 3]),
     p.value  = sprintf("%.3e", coef3[4, 4]),
-    CI.Lower = sprintf("%.8f", ci3[4, 1]),
-    CI.Upper = sprintf("%.8f", ci3[4, 2]),
     stringsAsFactors = FALSE
   )
 }
@@ -623,35 +610,9 @@ tbl7 <- do.call(rbind, rows7)
 print(tbl7, row.names = FALSE, digits = 4)
 
 
-# table 8: Model 2 slope versus 1
+# table 8: validation EAA agreement
 
 rows8 <- list()
-for (i in 1:length(clocks)) {
-  model2 <- all_models[[clocks[i]]]$model2
-  slope <- coef(model2)["MSA"]
-  slope_se <- summary(model2)$coefficients["MSA", "Std. Error"]
-  slope_ci <- confint(model2, "MSA")
-  t_val <- (slope - 1) / slope_se
-  rows8[[i]] <- data.frame(
-    Clock = clock_labels[i],
-    Slope = unname(slope),
-    Std.Error = slope_se,
-    CI.Lower = slope_ci[1],
-    CI.Upper = slope_ci[2],
-    Slope_minus_1 = unname(slope - 1),
-    t.value = unname(t_val),
-    df = df.residual(model2),
-    p.value = 2 * pt(abs(t_val), df = df.residual(model2), lower.tail = FALSE)
-  )
-}
-
-tbl8 <- do.call(rbind, rows8)
-print(tbl8, row.names = FALSE, digits = 4)
-
-
-# table 9: validation EAA agreement
-
-rows9 <- list()
 all_eaa_data <- list()
 
 for (i in which(clocks != "DNAmDunedinPACE")) {
@@ -664,29 +625,19 @@ for (i in which(clocks != "DNAmDunedinPACE")) {
     estimate <- test_data[[model_columns[j]]]
     eaa_msa <- residuals(lm(estimate ~ Age, data = test_data))
     eaa_data[[model_columns[j]]] <- eaa_msa
-    diff <- eaa_msa - eaa_epic
-    rows9[[length(rows9) + 1]] <- data.frame(
+    rows8[[length(rows8) + 1]] <- data.frame(
       Clock = clock_labels[i],
       Model = model_labels[j],
       N = nrow(test_data),
-      MAE = mae(eaa_epic, eaa_msa),
-      RMSE = rmse(eaa_epic, eaa_msa),
-      Bias = bias(eaa_epic, eaa_msa),
-      Correlation = cor(eaa_epic, eaa_msa),
       CCC = ccc(eaa_epic, eaa_msa),
-      Spearman = cor(eaa_epic, eaa_msa, method = "spearman"),
-      SD_EPICv2 = sd(eaa_epic),
-      SD_MSA = sd(eaa_msa),
-      SD_Ratio = sd(eaa_msa) / sd(eaa_epic),
-      Lower_LoA = mean(diff) - 1.96 * sd(diff),
-      Upper_LoA = mean(diff) + 1.96 * sd(diff)
+      Spearman = cor(eaa_epic, eaa_msa, method = "spearman")
     )
   }
   all_eaa_data[[clocks[i]]] <- eaa_data
 }
 
-tbl9 <- do.call(rbind, rows9)
-print(tbl9, row.names = FALSE, digits = 4)
+tbl8 <- do.call(rbind, rows8)
+print(tbl8, row.names = FALSE, digits = 4)
 
 write.csv(tbl1, "results/tables/Table1_training_characteristics.csv", row.names = FALSE)
 write.csv(tbl2, "results/tables/Table2_validation_characteristics.csv", row.names = FALSE)
@@ -695,5 +646,6 @@ write.csv(tbl4, "results/tables/Table4_regression_coefficients.csv", row.names =
 write.csv(tbl5, "results/tables/Table5_validation_performance.csv", row.names = FALSE)
 write.csv(tbl6, "results/tables/Table6_training_BlandAltman.csv", row.names = FALSE)
 write.csv(tbl7, "results/tables/Table7_validation_BlandAltman_CCC.csv", row.names = FALSE)
-write.csv(tbl8, "results/tables/Table8_model2_slope_test.csv", row.names = FALSE)
-write.csv(tbl9, "results/tables/Table9_validation_EAA.csv", row.names = FALSE)
+write.csv(tbl8, "results/tables/Table8_validation_EAA.csv", row.names = FALSE)
+
+saveRDS(all_coefficients, "results/calibration_coefficients.rds")
