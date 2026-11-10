@@ -397,93 +397,33 @@ print(tbl3, row.names = FALSE)
 
 # table 4: regression coefficients for all models
 
+coef_rows <- function(model, clock_label, model_label, terms) {
+  s <- summary(model)$coefficients
+  ci <- confint(model, level = 0.95)
+  data.frame(
+    Clock     = clock_label,
+    Model     = model_label,
+    Term      = terms,
+    Estimate  = sprintf("%.6g", s[, 1]),
+    Std.Error = sprintf("%.6g", s[, 2]),
+    CI.Lower  = sprintf("%.6g", ci[, 1]),
+    CI.Upper  = sprintf("%.6g", ci[, 2]),
+    stringsAsFactors = FALSE
+  )
+}
+
 rows4 <- list()
 
 for (i in 1:length(clocks)) {
   clock_label <- clock_labels[i]
   models <- all_models[[clocks[i]]]
   
-  ## Model 1
-  s1 <- summary(models$model1)
-  coef1 <- s1$coefficients
-  rows4[[length(rows4) + 1]] <- data.frame(
-    Clock    = clock_label,
-    Model    = "Model 1",
-    Term     = "Intercept",
-    Estimate = sprintf("%.6g", coef1[1, 1]),
-    Std.Error= sprintf("%.6g", coef1[1, 2]),
-    t.value  = sprintf("%.3f", coef1[1, 3]),
-    p.value  = sprintf("%.3e", coef1[1, 4]),
-    stringsAsFactors = FALSE
-  )
-  
-  ## Model 2
-  s2 <- summary(models$model2)
-  coef2 <- s2$coefficients
-  rows4[[length(rows4) + 1]] <- data.frame(
-    Clock    = clock_label,
-    Model    = "Model 2",
-    Term     = "Intercept",
-    Estimate = sprintf("%.6g", coef2[1, 1]),
-    Std.Error= sprintf("%.6g", coef2[1, 2]),
-    t.value  = sprintf("%.3f", coef2[1, 3]),
-    p.value  = sprintf("%.3e", coef2[1, 4]),
-    stringsAsFactors = FALSE
-  )
-  rows4[[length(rows4) + 1]] <- data.frame(
-    Clock    = clock_label,
-    Model    = "Model 2",
-    Term     = "MSA",
-    Estimate = sprintf("%.6g", coef2[2, 1]),
-    Std.Error= sprintf("%.6g", coef2[2, 2]),
-    t.value  = sprintf("%.3f", coef2[2, 3]),
-    p.value  = sprintf("%.3e", coef2[2, 4]),
-    stringsAsFactors = FALSE
-  )
-  
-  ## Model 3
-  s3 <- summary(models$model3)
-  coef3 <- s3$coefficients
-  rows4[[length(rows4) + 1]] <- data.frame(
-    Clock    = clock_label,
-    Model    = "Model 3",
-    Term     = "Intercept",
-    Estimate = sprintf("%.6g", coef3[1, 1]),
-    Std.Error= sprintf("%.6g", coef3[1, 2]),
-    t.value  = sprintf("%.3f", coef3[1, 3]),
-    p.value  = sprintf("%.3e", coef3[1, 4]),
-    stringsAsFactors = FALSE
-  )
-  rows4[[length(rows4) + 1]] <- data.frame(
-    Clock    = clock_label,
-    Model    = "Model 3",
-    Term     = "MSA",
-    Estimate = sprintf("%.6g", coef3[2, 1]),
-    Std.Error= sprintf("%.6g", coef3[2, 2]),
-    t.value  = sprintf("%.3f", coef3[2, 3]),
-    p.value  = sprintf("%.3e", coef3[2, 4]),
-    stringsAsFactors = FALSE
-  )
-  rows4[[length(rows4) + 1]] <- data.frame(
-    Clock    = clock_label,
-    Model    = "Model 3",
-    Term     = "Age",
-    Estimate = sprintf("%.6g", coef3[3, 1]),
-    Std.Error= sprintf("%.6g", coef3[3, 2]),
-    t.value  = sprintf("%.3f", coef3[3, 3]),
-    p.value  = sprintf("%.3e", coef3[3, 4]),
-    stringsAsFactors = FALSE
-  )
-  rows4[[length(rows4) + 1]] <- data.frame(
-    Clock    = clock_label,
-    Model    = "Model 3",
-    Term     = "Sex",
-    Estimate = sprintf("%.6g", coef3[4, 1]),
-    Std.Error= sprintf("%.6g", coef3[4, 2]),
-    t.value  = sprintf("%.3f", coef3[4, 3]),
-    p.value  = sprintf("%.3e", coef3[4, 4]),
-    stringsAsFactors = FALSE
-  )
+  rows4[[length(rows4) + 1]] <- coef_rows(models$model1, clock_label, "Model 1",
+                                          c("Intercept"))
+  rows4[[length(rows4) + 1]] <- coef_rows(models$model2, clock_label, "Model 2",
+                                          c("Intercept", "MSA"))
+  rows4[[length(rows4) + 1]] <- coef_rows(models$model3, clock_label, "Model 3",
+                                          c("Intercept", "MSA", "Age", "Sex"))
 }
 
 tbl4 <- do.call(rbind, rows4)
@@ -630,7 +570,8 @@ for (i in which(clocks != "DNAmDunedinPACE")) {
       Model = model_labels[j],
       N = nrow(test_data),
       CCC = ccc(eaa_epic, eaa_msa),
-      Spearman = cor(eaa_epic, eaa_msa, method = "spearman")
+      Spearman = cor(eaa_epic, eaa_msa, method = "spearman"),
+      SD_Ratio = sd(eaa_msa) / sd(eaa_epic)
     )
   }
   all_eaa_data[[clocks[i]]] <- eaa_data
