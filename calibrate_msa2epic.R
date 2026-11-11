@@ -50,34 +50,34 @@ calibrate_msa_to_epicv2 <- function(
 
   coefs <- list(
     Horvath = list(
-      model1 = c(intercept = 7.67, msa = 1, age = 0, sex = 0),
-      model2 = c(intercept = 11.6, msa = 0.916, age = 0, sex = 0),
-      model3 = c(intercept = 10.3, msa = 0.587, age = 0.339, sex = 1.30)
+      model1 = c(intercept = 7.6655, msa = 1, age = 0, sex = 0),
+      model2 = c(intercept = 11.6023, msa = 0.915845, age = 0, sex = 0),
+      model3 = c(intercept = 10.3292, msa = 0.587056, age = 0.338519, sex = 1.29732)
     ),
     Hannum = list(
-      model1 = c(intercept = 4.36, msa = 1, age = 0, sex = 0),
-      model2 = c(intercept = 5.33, msa = 0.978, age = 0, sex = 0),
-      model3 = c(intercept = 4.90, msa = 0.775, age = 0.189, sex = 0.968)
+      model1 = c(intercept = 4.36099, msa = 1, age = 0, sex = 0),
+      model2 = c(intercept = 5.32496, msa = 0.978194, age = 0, sex = 0),
+      model3 = c(intercept = 4.89555, msa = 0.77497, age = 0.188571, sex = 0.968285)
     ),
     PhenoAge = list(
-      model1 = c(intercept = 5.09, msa = 1, age = 0, sex = 0),
-      model2 = c(intercept = 7.03, msa = 0.946, age = 0, sex = 0),
-      model3 = c(intercept = 0.713, msa = 0.638, age = 0.366, sex = 0.120)
+      model1 = c(intercept = 5.08917, msa = 1, age = 0, sex = 0),
+      model2 = c(intercept = 7.03163, msa = 0.945517, age = 0, sex = 0),
+      model3 = c(intercept = 0.712576, msa = 0.637665, age = 0.365991, sex = 0.120119)
     ),
     GrimAge = list(
-      model1 = c(intercept = 1.30, msa = 1, age = 0, sex = 0),
-      model2 = c(intercept = 1.20, msa = 1.00, age = 0, sex = 0),
-      model3 = c(intercept = 2.17, msa = 0.862, age = 0.122, sex = -0.298)
+      model1 = c(intercept = 1.30007, msa = 1, age = 0, sex = 0),
+      model2 = c(intercept = 1.19803, msa = 1.00219, age = 0, sex = 0),
+      model3 = c(intercept = 2.1728, msa = 0.861818, age = 0.121838, sex = -0.297574)
     ),
     `GrimAge v2` = list(
-      model1 = c(intercept = 0.634, msa = 1, age = 0, sex = 0),
-      model2 = c(intercept = 1.41, msa = 0.985, age = 0, sex = 0),
-      model3 = c(intercept = 2.83, msa = 0.863, age = 0.110, sex = -0.276)
+      model1 = c(intercept = 0.634309, msa = 1, age = 0, sex = 0),
+      model2 = c(intercept = 1.40727, msa = 0.985322, age = 0, sex = 0),
+      model3 = c(intercept = 2.83338, msa = 0.8632, age = 0.109576, sex = -0.275966)
     ),
     DunedinPACE = list(
-      model1 = c(intercept = 0.117, msa = 1, age = 0, sex = 0),
-      model2 = c(intercept = 0.304, msa = 0.793, age = 0, sex = 0),
-      model3 = c(intercept = 0.289, msa = 0.744, age = 0.0011, sex = 0.0127)
+      model1 = c(intercept = 0.117078, msa = 1, age = 0, sex = 0),
+      model2 = c(intercept = 0.30409, msa = 0.792716, age = 0, sex = 0),
+      model3 = c(intercept = 0.288731, msa = 0.744042, age = 0.0011102, sex = 0.0126529)
     )
   )
 
